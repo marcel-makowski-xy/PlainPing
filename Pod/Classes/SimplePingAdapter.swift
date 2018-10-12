@@ -44,14 +44,18 @@ class SimplePingAdapter: NSObject, SimplePingDelegate {
         delegate = nil
     }
     
+
+    let localizedDescription = NSLocalizedString("ping timed out", value: "Hostname or address not reachable, or network is powered off", comment: "")
+    let localizedFailureReason = NSLocalizedString("ping timed out", value: "Please check the hostname or the address", comment: "")
+
     @objc func timeout() {
         let userInfo: [String: Any] =
         [
-            NSLocalizedDescriptionKey :  NSLocalizedString("ping timed out", value: "Hostname or address not reachable, or network is powered off", comment: ""),
-            NSLocalizedFailureReasonErrorKey : NSLocalizedString("ping timed out", value: "Please check the hostname or the address", comment: "")
+            NSLocalizedDescriptionKey : localizedDescription,
+            NSLocalizedFailureReasonErrorKey : localizedFailureReason
         ]
         let err = NSError(domain: "PlainPingErrorDomain", code: -100, userInfo: userInfo)
-        
+
         delegate?.didFailPingWithError(err)
         stopPinging()
     }
